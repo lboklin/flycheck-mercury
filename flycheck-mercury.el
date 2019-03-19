@@ -188,7 +188,7 @@ Pass FILENAME and BUFFER object to Flycheck."
                                                 'warning)
                                                ((string-match "Inferred" (cl-second x))
                                                 'info)
-                                               (t 'error))))
+                                               (t 'warning))))
           final-list))
 
 (eval-and-compile
