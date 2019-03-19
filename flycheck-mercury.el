@@ -82,13 +82,13 @@ Removes message to use `-E' option for more information on errors
 for very long error messages."
   (let ((prefix-list '("mercury_compile:" "Uncaught Mercury exception:"
                        "Software Error:" "  ")))
-    (-map #'(lambda (zeile)
+    (-map #'(lambda (line)
               (if (-any? #'(lambda (prefix)
-                             (s-starts-with? prefix zeile)) prefix-list)
-                  (s-append (s-chop-prefixes prefix-list zeile) "foo:001:")
-                zeile))
-          (-remove #'(lambda (zeile)
-                       (s-starts-with? "For more information, recompile with `-E'." zeile))
+                             (s-starts-with? prefix line)) prefix-list)
+                  (s-append (s-chop-prefixes prefix-list line) "foo:001:")
+                line))
+          (-remove #'(lambda (line)
+                       (s-starts-with? "For more information, recompile with `-E'." line))
                    output))))
 
 (defun flycheck-mmc-truncate-message-length (message)
@@ -110,12 +110,12 @@ format: 'filename ':' linenumber ':' errormessage'."
               (cons (string-to-number (cl-first num-desc))
                     (flycheck-mmc-truncate-message-length
                      (s-chop-prefix " "
-                                    (-reduce #'(lambda (zeile rest)
-                                                 (concat zeile ":" rest))
+                                    (-reduce #'(lambda (line rest)
+                                                 (concat line ":" rest))
                                              (cdr num-desc))))))
           (-remove #'(lambda (x) (eq x nil))
-                   (mapcar #'(lambda (zeile)
-                               (cdr (s-split ":" zeile)))
+                   (mapcar #'(lambda (line)
+                               (cdr (s-split ":" line)))
                            (flycheck-mmc-assign-error-line
                             (s-split "\n" output))))))
 
