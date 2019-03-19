@@ -180,13 +180,15 @@ Pass FILENAME and BUFFER object to Flycheck."
                                   :filename filename
                                   :buffer buffer
                                   :checker 'mercury-mmc
-                                  :level (cond ((string-match "rror" (cl-second x))
+                                  :level (cond ((string-match "[Ee]rror" (cl-second x))
                                                 'error)
-                                               ((string-match "mismatch" (cl-second x))
+                                               ((string-match "[Mm]ismatch" (cl-second x))
                                                 'error)
-                                               ((string-match "arning" (cl-second x))
+                                               ((string-match "[Dd]isjunction" (cl-second x))
+                                                'error)
+                                               ((string-match "[Ww]arning" (cl-second x))
                                                 'warning)
-                                               ((string-match "Inferred" (cl-second x))
+                                               ((string-match "[Ii]nferred" (cl-second x))
                                                 'info)
                                                (t 'warning))))
           final-list))
